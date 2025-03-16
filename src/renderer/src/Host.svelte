@@ -1,6 +1,5 @@
 <script lang="ts">
   import { onMount } from 'svelte'
-  import Swal from 'sweetalert2'
   import { L } from './translations'
   import { useNavigationEnabled, useIsHosting, useHostUrl } from './stores'
   import { mayBeConnectionString, getDataFromBananasUrl, ConnectionType } from './Utils'
@@ -42,31 +41,13 @@
   const onConnectionStateChange = (): void => {
     switch (connectionState) {
       case 'connected':
-        Swal.fire({
-          position: 'top-end',
-          icon: 'success',
-          title: 'Connection established',
-          showConfirmButton: false,
-          timer: 1500
-        })
+        // TODO: show a toast
         break
       case 'failed':
-        Swal.fire({
-          position: 'top-end',
-          icon: 'error',
-          title: 'Connection failed',
-          showConfirmButton: false,
-          timer: 1500
-        })
+        // TODO: show a toast
         break
       case 'closed':
-        Swal.fire({
-          position: 'top-end',
-          icon: 'info',
-          title: 'Connection closed',
-          showConfirmButton: false,
-          timer: 1500
-        })
+        // TODO: show a toast
         break
       default:
         break
@@ -144,7 +125,7 @@
 
 <div class="container p-5">
   <h1 class="title">{!isStreaming ? L.host_a_session() : L.hosting_a_session()}</h1>
-  <div class={!isStreaming ? 'is-hidden' : ''}>
+  <div class={!isStreaming ? 'hidden' : ''}>
     <div class="fixed-grid">
       <div class="grid">
         <div class="cell">
@@ -166,11 +147,11 @@
               <span class="icon">
                 {#if microphoneActive}
                   <AudioVisualizer
-                    className="icon {!visualizerIsActive ? 'is-hidden' : ''}"
+                    className="icon {!visualizerIsActive ? 'hidden' : ''}"
                     bind:visualizerIsActive
                     stream={webRTCComponent.GetAudioStream()}
                   />
-                  <i class="fas fa-microphone {visualizerIsActive ? 'is-hidden' : ''}"></i>
+                  <i class="fas fa-microphone {visualizerIsActive ? 'hidden' : ''}"></i>
                 {:else}
                   <i class="fas fa-microphone-slash"></i>
                 {/if}
@@ -180,7 +161,7 @@
           <button
             title={cursorsActive ? L.remote_cursors_enabled() : L.remote_cursors_disabled()}
             class="button {cursorsActive ? 'is-success' : 'is-danger'} {!displayStreamActive
-              ? 'is-hidden'
+              ? 'hidden'
               : ''}"
             on:click={toggleRemoteCursors}
           >
@@ -204,7 +185,7 @@
     <div class="grid">
       <div class="cell">
         <button
-          class="button is-link {isStreaming ? 'is-hidden' : ''}"
+          class="button is-link {isStreaming ? 'hidden' : ''}"
           disabled={sessionStarted}
           on:click={onStartSessionButtonClick}
         >
@@ -217,7 +198,7 @@
 
       <div class="cell">
         <button
-          class="button is-danger {!sessionStarted || isStreaming ? 'is-hidden' : ''}"
+          class="button is-danger {!sessionStarted || isStreaming ? 'hidden' : ''}"
           on:click={onDisconnectClick}
         >
           <span class="icon">
@@ -230,7 +211,7 @@
       <div class="cell">
         <button
           class="button is-link {!sessionStarted || isStreaming
-            ? 'is-hidden'
+            ? 'hidden'
             : ''} {copyButtonIsLoading ? 'is-loading' : ''}"
           bind:this={copyButton}
         >
@@ -242,7 +223,7 @@
       </div>
     </div>
 
-    <div class="field has-addons {!sessionStarted || isStreaming ? 'is-hidden' : ''}">
+    <div class="field has-addons {!sessionStarted || isStreaming ? 'hidden' : ''}">
       <div class="control has-icons-left has-icons-right">
         <input
           bind:value={$connectionString}
