@@ -28,6 +28,7 @@
         const srv = JSON.parse(serverObject)
         return srv.urls && srv.urls.length > 0
       } catch (e) {
+        console.error(e)
         return false
       }
     })
@@ -81,62 +82,28 @@
   })
 </script>
 
-<div class="modal {modalSuccessIsActive ? 'is-active' : ''}">
-  <div class="modal-background"></div>
-  <div class="modal-content">
-    <div class="box">
-      <h1 class="title has-text-success">Success</h1>
-      <p>Settings successfully saved.</p>
-    </div>
-  </div>
-</div>
-
-<div class="modal {modalFailureIsActive ? 'is-active' : ''}">
-  <div class="modal-background"></div>
-  <div class="modal-content">
-    <div class="box">
-      <h1 class="title has-text-danger">Failure</h1>
-      <p>Settings could not be saved.</p>
-    </div>
-  </div>
-</div>
-
 <div class="container p-5 content">
   <h1 class="title">{L.settings()}</h1>
   <h2>{L.basic()}</h2>
-  <form class="form" on:submit={onSubmit}>
-    <div class="field">
-      <label class="label" for="username">{L.username()}</label>
-      <div class="control has-icons-left has-icons-right">
-        <input
-          bind:value={usernameValue}
-          class="input {isUsernameValid ? 'is-success' : 'is-danger'}"
-          type="text"
-          id="username"
-          placeholder="Banana Joe"
-        />
-        <span class="icon is-small is-left">
-          <i class="fas fa-user"></i>
-        </span>
-      </div>
+  <form class="form mb-5" on:submit={onSubmit}>
+    <div class="mb-5">
+      <label class="input">
+        {L.username()}
+        <input type="text" bind:value={usernameValue} class="grow {isUsernameValid ? 'is-success' : 'is-danger'}" placeholder="Banana Joe" />
+      </label>
     </div>
 
-    <div class="field">
-      <label class="label" for="color">{L.color()}</label>
-      <div class="control has-icons-left has-icons-right">
-        <input
-          bind:value={colorValue}
-          class="input {isColorValid ? 'is-success' : 'is-danger'}"
-          type="text"
-          id="color"
-          placeholder="#fffff"
-        />
-        <span class="icon is-small is-left">
-          <i bind:this={colorPreviewIcon} class="fas fa-palette"></i>
-        </span>
-        <ColorPicker bind:hex={colorValue} isTextInput={false} isAlpha={false} />
-      </div>
+    <div class="mb-5">
+      <label class="input">
+        {L.color()}
+        <input type="text" bind:value={colorValue} class="grow {isColorValid ? 'is-success' : 'is-danger'}" placeholder="#ffffff" />
+      </label>
+      <span class="icon is-small is-left">
+        <i bind:this={colorPreviewIcon} class="fas fa-palette"></i>
+      </span>
+      <ColorPicker bind:hex={colorValue} isTextInput={false} isAlpha={false} />
     </div>
+
     <div class="field">
       <label class="label" for="translation">{L.language()}</label>
       <div class="control has-icons-left has-icons-right">
@@ -173,7 +140,7 @@
 
     <h2>{L.advanced()}</h2>
 
-    <div class="field">
+    <div class="mb-5">
       <label class="label" for="ice_servers">{L.stun_turn_server_objects()}</label>
       <div class="control has-icons-left has-icons-right">
         <textarea
@@ -185,12 +152,24 @@
       </div>
     </div>
 
-    <div class="field">
-      <div class="control">
-        <button class="button is-link">Save</button>
-      </div>
+    <div class="mb-5">
+      <button class="btn btn-info">Save</button>
     </div>
   </form>
+
+  <div role="alert" class="alert alert-success {modalSuccessIsActive ? '' : 'hidden'}">
+    <span class="icon">
+      <span class="fa fa-checkmark"></span>
+    </span>
+    <span>Settings successfully saved.</span>
+  </div>
+
+  <div role="alert" class="alert alert-error {modalFailureIsActive ? '' : 'hidden'}">
+    <span class="icon">
+      <span class="fa fa-times"></span>
+    </span>
+    <span>Settings could not be saved.</span>
+  </div>
 </div>
 
 <style>

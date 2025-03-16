@@ -1,6 +1,5 @@
 <script lang="ts">
   import { onMount } from 'svelte'
-  import Swal from 'sweetalert2'
   import { L } from './translations'
   import {
     makeVideoDraggable,
@@ -47,31 +46,13 @@
   const onConnectionStateChange = (): void => {
     switch (connectionState) {
       case 'connected':
-        Swal.fire({
-          position: 'top-end',
-          icon: 'success',
-          title: 'Connection established',
-          showConfirmButton: false,
-          timer: 1500
-        })
+        // TODO: show a toast
         break
       case 'failed':
-        Swal.fire({
-          position: 'top-end',
-          icon: 'error',
-          title: 'Connection failed',
-          showConfirmButton: false,
-          timer: 1500
-        })
+        // TODO: show a toast
         break
       case 'closed':
-        Swal.fire({
-          position: 'top-end',
-          icon: 'info',
-          title: 'Connection closed',
-          showConfirmButton: false,
-          timer: 1500
-        })
+        // TODO: show a toast
         break
       default:
         break
