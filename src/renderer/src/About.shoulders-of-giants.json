@@ -35,11 +35,18 @@
     "url": "https://github.com/sveltejs/svelte"
   },
   {
-    "title": "Bulma",
-    "description": "A modern CSS framework based on Flexbox.",
+    "title": "TailwindCSS",
+    "description": "A utility-first CSS framework for rapidly building custom designs.",
     "usage": "Used for styling the user interface.",
     "license": "MIT",
-    "url": "https://github.com/jgthms/bulma"
+    "url": "https://github.com/tailwindlabs/tailwindcss"
+  },
+  {
+    "title": "DaisyUI",
+    "description": "A component library for Tailwind CSS.",
+    "usage": "Used for styling the user interface.",
+    "license": "MIT",
+    "url": "https://github.com/saadeghi/daisyui"
   },
   {
     "title": "eslint",
@@ -89,12 +96,5 @@
     "usage": "Used for installing and managing dependencies and running scripts.",
     "license": "MIT",
     "url": "https://github.com/oven-sh/bun"
-  },
-  {
-    "title": "SweetAlert2",
-    "description": "A beautiful, responsive, customizable, accessible (WAI-ARIA) replacement for JavaScript's popup boxes.",
-    "usage": "Used for displaying alerts and modals.",
-    "license": "MIT",
-    "url": "https://github.com/sweetalert2/sweetalert2"
   }
 ]
