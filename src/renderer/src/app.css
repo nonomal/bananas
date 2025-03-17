@@ -1,2 +1,36 @@
 @import 'tailwindcss';
 @plugin 'daisyui';
+
+.color-picker.vertical {
+  display: inline-flex;
+}
+
+.title {
+  font-weight: var(--font-weight-bold);
+  margin-bottom: calc(var(--spacing) * 5);
+}
+
+h1.title {
+  font-size: var(--text-3xl);
+}
+
+h2.title {
+  font-size: var(--text-2xl);
+}
+
+div.container {
+  padding: calc(var(--spacing) * 5);
+}
+
+.form .field {
+  margin-bottom: calc(var(--spacing) * 5);
+}
+
+.form .field label {
+  display: block;
+}
+
+.form .help {
+  margin-top: calc(var(--spacing) * 2);
+  font-size: var(--text-sm);
+}

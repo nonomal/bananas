@@ -22,12 +22,12 @@
 </script>
 
 <div class="p-5 text-center">
-  <h1 class="text-2xl">{L.about()}</h1>
+  <h1 class="title">{L.about()}</h1>
   <p>You are using <code>{version}</code> of Bananas Screen Sharing</p>
 
   <div class="divider">Project links</div>
 
-  <div>
+  <div class="bg-base-200 p-5 flex flex-wrap justify-center">
     <button class="btn btn-ghost" data-url="https://getbananas.net" on:click={openExternalURL}>
       <span class="icon">
         <i class="fa-solid fa-globe"></i>
@@ -90,7 +90,7 @@
 
   <div class="flex flex-wrap justify-center">
     {#each randomizedShoulders as shoulder}
-      <div class="card w-96 bg-base-100 card-md shadow-sm text-left">
+      <div class="card w-96 bg-base-200 card-md shadow-sm text-left m-2">
         <div class="card-body">
           <h2 class="card-title text-accent">
             {shoulder.title}

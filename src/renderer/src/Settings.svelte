@@ -82,25 +82,44 @@
   })
 </script>
 
-<div class="container p-5 content">
+<div class="container">
   <h1 class="title">{L.settings()}</h1>
-  <h2>{L.basic()}</h2>
-  <form class="form mb-5" on:submit={onSubmit}>
-    <div class="mb-5">
-      <label class="input">
+  <h2 class="title">{L.basic()}</h2>
+  <form class="form" on:submit={onSubmit}>
+    <div class="field">
+      <label class="label" for="username">
         {L.username()}
-        <input type="text" bind:value={usernameValue} class="grow {isUsernameValid ? 'is-success' : 'is-danger'}" placeholder="Banana Joe" />
       </label>
+      <div class="input">
+        <input
+          type="text"
+          id="username"
+          bind:value={usernameValue}
+          class={isUsernameValid ? 'is-success' : 'is-danger'}
+          placeholder="Banana Joe"
+        />
+        <span class="icon is-small is-left">
+          <i class="fas fa-user"></i>
+        </span>
+      </div>
     </div>
 
-    <div class="mb-5">
-      <label class="input">
+    <div class="field">
+      <label class="label" for="color">
         {L.color()}
-        <input type="text" bind:value={colorValue} class="grow {isColorValid ? 'is-success' : 'is-danger'}" placeholder="#ffffff" />
       </label>
-      <span class="icon is-small is-left">
-        <i bind:this={colorPreviewIcon} class="fas fa-palette"></i>
-      </span>
+      <div class="input">
+        <input
+          type="text"
+          id="color"
+          bind:value={colorValue}
+          class={isColorValid ? 'is-success' : 'is-danger'}
+          placeholder="#ffffff"
+        />
+        <span class="icon is-small is-left">
+          <i bind:this={colorPreviewIcon} class="fas fa-palette"></i>
+        </span>
+      </div>
       <ColorPicker bind:hex={colorValue} isTextInput={false} isAlpha={false} />
     </div>
 
@@ -113,43 +132,39 @@
               <option>{lang}</option>
             {/each}
           </select>
+          <span class="icon is-small is-left">
+            <i class="fa fa-language"></i>
+          </span>
         </div>
-        <span class="icon is-small is-left">
-          <i class="fa fa-language"></i>
-        </span>
       </div>
       <p class="help">{L.language_description()}</p>
     </div>
 
-    <h2>Media</h2>
+    <h2 class="title">Media</h2>
 
     <div class="field">
-      <div class="control">
-        <label class="checkbox" for="microphone_active_on_connect">
-          <input
-            bind:checked={isMicrophoneEnabledOnConnect}
-            class="checkbox"
-            type="checkbox"
-            id="microphone_active_on_connect"
-            placeholder="#fffff"
-          />
-          {L.is_microphone_active_on_connect()}
-        </label>
-      </div>
+      <label class="label" for="microphone_active_on_connect">
+        <input
+          bind:checked={isMicrophoneEnabledOnConnect}
+          class="checkbox"
+          type="checkbox"
+          id="microphone_active_on_connect"
+          placeholder="#fffff"
+        />
+        {L.is_microphone_active_on_connect()}
+      </label>
     </div>
 
-    <h2>{L.advanced()}</h2>
+    <h2 class="title">{L.advanced()}</h2>
 
-    <div class="mb-5">
+    <div class="field">
       <label class="label" for="ice_servers">{L.stun_turn_server_objects()}</label>
-      <div class="control has-icons-left has-icons-right">
-        <textarea
-          bind:value={iceServersValue}
-          class="textarea {isIceServersValid ? 'is-success' : 'is-danger'}"
-          id="ice_servers"
-          placeholder="&lbrace; &quot;urls&quot;: &quot;stun:stun.l.google.com:19302&quot; &rbrace;"
-        ></textarea>
-      </div>
+      <textarea
+        bind:value={iceServersValue}
+        class="textarea {isIceServersValid ? 'is-success' : 'is-danger'}"
+        id="ice_servers"
+        placeholder="&lbrace; &quot;urls&quot;: &quot;stun:stun.l.google.com:19302&quot; &rbrace;"
+      ></textarea>
     </div>
 
     <div class="mb-5">
