@@ -177,15 +177,16 @@
 
   <div>
     <div class={isStreaming || isConnected ? 'hidden' : ''}>
-      <div class="input">
+      <div
+        class="input {connectionStringIsValid === null
+          ? ''
+          : connectionStringIsValid
+            ? 'input-success'
+            : 'input-error'}"
+      >
         <input
           bind:value={$connectionString}
           placeholder={L.host_connection_string()}
-          class={connectionStringIsValid === null
-            ? ''
-            : connectionStringIsValid
-              ? 'is-success'
-              : 'is-danger'}
           type="text"
         />
         <span class="icon is-small is-left">

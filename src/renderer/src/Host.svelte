@@ -214,11 +214,11 @@
 
 <div class="container {!sessionStarted || isStreaming ? 'hidden' : ''}">
   <div
-    class="input {connectionStringIsValid ? '' : 'btn-disabled'} {connectionStringIsValid === null
+    class="input {connectionStringIsValid === null
       ? ''
       : connectionStringIsValid
         ? 'input-success'
-        : 'input-warning'}"
+        : 'input-error'}"
   >
     <input bind:value={$connectionString} placeholder="participant connection string" type="text" />
     <span class="icon is-small is-left">
