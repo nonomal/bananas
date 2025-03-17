@@ -123,147 +123,129 @@
 
 <WebRTC bind:connectionState bind:this={webRTCComponent} />
 
-<div class="container p-5">
+<div class="container">
   <h1 class="title">{!isStreaming ? L.host_a_session() : L.hosting_a_session()}</h1>
   <div class={!isStreaming ? 'hidden' : ''}>
-    <div class="fixed-grid">
-      <div class="grid">
-        <div class="cell">
+    <div class="btn {displayStreamActive ? 'btn-success' : 'btn-warning'}">
+      <button
+        aria-label={displayStreamActive ? L.streaming_your_display() : L.streaming_your_display()}
+        title={displayStreamActive ? L.streaming_your_display() : L.streaming_your_display()}
+        on:click={onDisplayStreamToggle}
+      >
+        <span class="icon">
+          <i class="fa-solid fa-display"></i>
+        </span>
+      </button>
+      {#if hasAudioInput}
+        <div class="btn {microphoneActive ? 'btn-success' : 'btn-warning'}">
           <button
-            title={displayStreamActive ? L.streaming_your_display() : L.streaming_your_display()}
-            class="button {displayStreamActive ? 'is-success' : 'is-danger'}"
-            on:click={onDisplayStreamToggle}
+            title={microphoneActive ? 'Microphone active' : 'Microphone muted'}
+            on:click={onMicrophoneToggle}
           >
             <span class="icon">
-              <i class="fa-solid fa-display"></i>
-            </span>
-          </button>
-          {#if hasAudioInput}
-            <button
-              title={microphoneActive ? 'Microphone active' : 'Microphone muted'}
-              class="button {microphoneActive ? 'is-success' : 'is-danger'}"
-              on:click={onMicrophoneToggle}
-            >
-              <span class="icon">
-                {#if microphoneActive}
-                  <AudioVisualizer
-                    className="icon {!visualizerIsActive ? 'hidden' : ''}"
-                    bind:visualizerIsActive
-                    stream={webRTCComponent.GetAudioStream()}
-                  />
-                  <i class="fas fa-microphone {visualizerIsActive ? 'hidden' : ''}"></i>
-                {:else}
-                  <i class="fas fa-microphone-slash"></i>
-                {/if}
-              </span>
-            </button>
-          {/if}
-          <button
-            title={cursorsActive ? L.remote_cursors_enabled() : L.remote_cursors_disabled()}
-            class="button {cursorsActive ? 'is-success' : 'is-danger'} {!displayStreamActive
-              ? 'hidden'
-              : ''}"
-            on:click={toggleRemoteCursors}
-          >
-            <span class="icon">
-              <i class="fas fa-mouse-pointer"></i>
+              {#if microphoneActive}
+                <AudioVisualizer
+                  className="icon {!visualizerIsActive ? 'hidden' : ''}"
+                  bind:visualizerIsActive
+                  stream={webRTCComponent.GetAudioStream()}
+                />
+                <i class="fas fa-microphone {visualizerIsActive ? 'hidden' : ''}"></i>
+              {:else}
+                <i class="fas fa-microphone-slash"></i>
+              {/if}
             </span>
           </button>
         </div>
-        <div class="cell has-text-right">
-          <button class="button is-danger" on:click={onDisconnectClick}>
-            <span class="icon">
-              <i class="fas fa-unlink"></i>
-            </span>
-            <span>{L.disconnect()}</span>
-          </button>
-        </div>
+      {/if}
+
+      <div
+        class="button {cursorsActive ? 'is-success' : 'is-danger'} {!displayStreamActive
+          ? 'hidden'
+          : ''}"
+      >
+        <button
+          aria-label={cursorsActive ? L.remote_cursors_enabled() : L.remote_cursors_disabled()}
+          title={cursorsActive ? L.remote_cursors_enabled() : L.remote_cursors_disabled()}
+          on:click={toggleRemoteCursors}
+        >
+          <span class="icon">
+            <i class="fas fa-mouse-pointer"></i>
+          </span>
+        </button>
       </div>
+    </div>
+    <div class="btn btn-warning">
+      <button on:click={onDisconnectClick}>
+        <span class="icon">
+          <i class="fas fa-unlink"></i>
+        </span>
+        <span>{L.disconnect()}</span>
+      </button>
     </div>
   </div>
-  <div class="fixed-grid has-2-cols">
-    <div class="grid">
-      <div class="cell">
-        <button
-          class="button is-link {isStreaming ? 'hidden' : ''}"
-          disabled={sessionStarted}
-          on:click={onStartSessionButtonClick}
-        >
-          <span class="icon">
-            <i class="fas fa-play"></i>
-          </span>
-          <span>{!sessionStarted ? L.start_a_new_session() : L.session_started()}</span>
-        </button>
-      </div>
 
-      <div class="cell">
-        <button
-          class="button is-danger {!sessionStarted || isStreaming ? 'hidden' : ''}"
-          on:click={onDisconnectClick}
-        >
-          <span class="icon">
-            <i class="fas fa-unlink"></i>
-          </span>
-          <span>{L.cancel()}</span>
-        </button>
-      </div>
+  <div class="btn btn-info {!sessionStarted ? '' : 'hidden'}">
+    <button disabled={sessionStarted} on:click={onStartSessionButtonClick}>
+      <span class="icon">
+        <i class="fas fa-play"></i>
+      </span>
+      <span>{!sessionStarted ? L.start_a_new_session() : L.session_started()}</span>
+    </button>
+  </div>
 
-      <div class="cell">
-        <button
-          class="button is-link {!sessionStarted || isStreaming
-            ? 'hidden'
-            : ''} {copyButtonIsLoading ? 'is-loading' : ''}"
-          bind:this={copyButton}
-        >
-          <span class="icon">
-            <i class="fas fa-copy"></i>
-          </span>
-          <span>{L.copy_my_connection_string()}</span>
-        </button>
-      </div>
-    </div>
+  <div class="btn btn-warning {!sessionStarted || isStreaming ? 'hidden' : ''}">
+    <button on:click={onDisconnectClick}>
+      <span class="icon">
+        <i class="fas fa-unlink"></i>
+      </span>
+      <span>{L.cancel()}</span>
+    </button>
+  </div>
 
-    <div class="field has-addons {!sessionStarted || isStreaming ? 'hidden' : ''}">
-      <div class="control has-icons-left has-icons-right">
-        <input
-          bind:value={$connectionString}
-          placeholder="participant connection string"
-          class="input {connectionStringIsValid === null
-            ? ''
-            : connectionStringIsValid
-              ? 'is-success'
-              : 'is-danger'}"
-          type="text"
-        />
-        <span class="icon is-small is-left">
-          <i class="fas fa-user"></i>
-        </span>
-        <span class="icon is-small is-right">
-          <i
-            class="fas fa-question {connectionStringIsValid === null
-              ? 'fa-question'
-              : connectionStringIsValid
-                ? 'fa-check'
-                : 'fa-times'}"
-          ></i>
-        </span>
-      </div>
-      <div class="control">
-        <button
-          class="button {connectionStringIsValid === null
-            ? 'is-link'
-            : connectionStringIsValid
-              ? 'is-success'
-              : 'is-danger'}"
-          bind:this={connectButton}
-          disabled={connectionStringIsValid ? false : true}
-        >
-          <span class="icon">
-            <i class="fas fa-link"></i>
-          </span>
-          <span>{L.connect()} {connectionStringIsValid ? connectToUserName : ''} </span>
-        </button>
-      </div>
-    </div>
+  <div class="btn btn-info {!sessionStarted || isStreaming ? 'hidden' : ''}">
+    <button bind:this={copyButton}>
+      <span class="icon">
+        <i class="fas fa-copy"></i>
+      </span>
+      <span>{L.copy_my_connection_string()}</span>
+    </button>
+  </div>
+</div>
+
+<div class="container {!sessionStarted || isStreaming ? 'hidden' : ''}">
+  <div
+    class="input {connectionStringIsValid ? '' : 'btn-disabled'} {connectionStringIsValid === null
+      ? ''
+      : connectionStringIsValid
+        ? 'input-success'
+        : 'input-warning'}"
+  >
+    <input bind:value={$connectionString} placeholder="participant connection string" type="text" />
+    <span class="icon is-small is-left">
+      <i class="fas fa-user"></i>
+    </span>
+    <span class="icon is-small is-right">
+      <i
+        class="fas fa-question {connectionStringIsValid === null
+          ? 'fa-question'
+          : connectionStringIsValid
+            ? 'fa-check'
+            : 'fa-times'}"
+      ></i>
+    </span>
+  </div>
+  <div
+    class="btn {connectionStringIsValid ? '' : 'btn-disabled'} {connectionStringIsValid === null
+      ? 'btn-info'
+      : connectionStringIsValid
+        ? 'btn-success'
+        : 'btn-warning'}"
+  >
+    <button bind:this={connectButton} disabled={connectionStringIsValid ? false : true}>
+      <span class="icon">
+        <i class="fas fa-link"></i>
+      </span>
+      <span>{L.connect()} {connectionStringIsValid ? connectToUserName : ''} </span>
+    </button>
   </div>
 </div>

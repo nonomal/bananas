@@ -137,26 +137,26 @@
 
 <WebRTC bind:connectionState bind:this={webRTCComponent} />
 
-<div class="container p-5">
+<div class="container">
   <h1 class="title">{!isStreaming ? L.join_a_session() : L.joined_a_session()}</h1>
-  <div class={!isStreaming ? 'is-hidden' : ''}>
+  <div class={!isStreaming ? 'hidden' : ''}>
     <div class="fixed-grid">
       <div class="grid">
-        <div class="cell">
+        <div class="btn btn-primary">
           <button
             aria-label="{microphoneActive ? L.microphone_active() : L.microphone_inactive()}}"
             title={microphoneActive ? L.microphone_active() : L.microphone_inactive()}
-            class="button {microphoneActive ? 'is-success' : 'is-danger'}"
+            class={microphoneActive ? 'is-success' : 'is-danger'}
             on:click={onMicrophoneToggle}
           >
             <span class="icon">
               {#if microphoneActive}
                 <AudioVisualizer
-                  className="icon {!visualizerIsActive ? 'is-hidden' : ''}"
+                  className="icon {!visualizerIsActive ? 'hidden' : ''}"
                   bind:visualizerIsActive
                   stream={webRTCComponent.GetAudioStream()}
                 />
-                <i class="fas fa-microphone {visualizerIsActive ? 'is-hidden' : ''}"></i>
+                <i class="fas fa-microphone {visualizerIsActive ? 'hidden' : ''}"></i>
               {:else}
                 <i class="fas fa-microphone-slash"></i>
               {/if}
@@ -174,81 +174,70 @@
       </div>
     </div>
   </div>
-  <div class="fixed-grid has-2-cols">
-    <div class="grid">
-      <div class="cell">
-        <div class="field has-addons {isStreaming || isConnected ? 'is-hidden' : ''}">
-          <div class="control has-icons-left has-icons-right">
-            <input
-              bind:value={$connectionString}
-              placeholder={L.host_connection_string()}
-              class="input {connectionStringIsValid === null
-                ? ''
-                : connectionStringIsValid
-                  ? 'is-success'
-                  : 'is-danger'}"
-              type="text"
-            />
-            <span class="icon is-small is-left">
-              <i class="fas fa-user"></i>
-            </span>
-            <span class="icon is-small is-right">
-              <i
-                class="fas fa-question {connectionStringIsValid === null
-                  ? 'fa-question'
-                  : connectionStringIsValid
-                    ? 'fa-check'
-                    : 'fa-times'}"
-              ></i>
-            </span>
-          </div>
-          <div class="control">
-            <button
-              class="button {connectionStringIsValid === null
-                ? 'is-link'
-                : connectionStringIsValid
-                  ? 'is-success'
-                  : 'is-danger'}"
-              bind:this={connectButton}
-              disabled={connectionStringIsValid ? false : true}
-            >
-              <span class="icon">
-                <i class="fas fa-link"></i>
-              </span>
-              <span>{L.connect()} {connectionStringIsValid ? connectToUserName : ''} </span>
-            </button>
-          </div>
-        </div>
-        <div class="control">
-          <button
-            class="button is-link {!isConnected || isStreaming
-              ? 'is-hidden'
-              : ''} {copyButtonIsLoading ? 'is-loading' : ''}"
-            bind:this={copyButton}
-          >
-            <span class="icon">
-              <i class="fas fa-copy"></i>
-            </span>
-            <span>{L.copy_my_connection_string()}</span>
-          </button>
-        </div>
+
+  <div>
+    <div class={isStreaming || isConnected ? 'hidden' : ''}>
+      <div class="input">
+        <input
+          bind:value={$connectionString}
+          placeholder={L.host_connection_string()}
+          class={connectionStringIsValid === null
+            ? ''
+            : connectionStringIsValid
+              ? 'is-success'
+              : 'is-danger'}
+          type="text"
+        />
+        <span class="icon is-small is-left">
+          <i class="fas fa-user"></i>
+        </span>
+        <span class="icon is-small is-right">
+          <i
+            class="fas fa-question {connectionStringIsValid === null
+              ? 'fa-question'
+              : connectionStringIsValid
+                ? 'fa-check'
+                : 'fa-times'}"
+          ></i>
+        </span>
       </div>
-      <div class="cell">
-        <button
-          class="button is-danger {isStreaming || !isConnected ? 'is-hidden' : ''}"
-          on:click={onDisconnectClick}
-        >
+      <div
+        class="btn btn-primary {connectionStringIsValid
+          ? ''
+          : 'btn-disabled'} {connectionStringIsValid === null
+          ? 'is-link'
+          : connectionStringIsValid
+            ? 'btn-success'
+            : 'btn-warning'}"
+      >
+        <button bind:this={connectButton} disabled={connectionStringIsValid ? false : true}>
           <span class="icon">
-            <i class="fas fa-unlink"></i>
+            <i class="fas fa-link"></i>
           </span>
-          <span>{L.cancel()}</span>
+          <span>{L.connect()} {connectionStringIsValid ? connectToUserName : ''} </span>
         </button>
       </div>
     </div>
+    <div class="btn btn-info {!isConnected || isStreaming ? 'hidden' : ''}">
+      <button bind:this={copyButton}>
+        <span class="icon">
+          <i class="fas fa-copy"></i>
+        </span>
+        <span>{L.copy_my_connection_string()}</span>
+      </button>
+    </div>
+  </div>
+  <div class="btn btn-warning {!isConnected || isStreaming ? 'hidden' : ''}">
+    <button on:click={onDisconnectClick}>
+      <span class="icon">
+        <i class="fas fa-unlink"></i>
+      </span>
+      <span>{L.cancel()}</span>
+    </button>
   </div>
 </div>
 
-<div class={!isStreaming ? 'is-hidden' : ''}>
+<div class={!isStreaming ? 'hidden' : ''}>
   <div class="field">
     <label class="label" for="remote_screen">{L.remote_screen()}</label>
     <div class="control">
